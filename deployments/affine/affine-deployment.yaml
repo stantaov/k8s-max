@@ -206,8 +206,6 @@ spec:
             configMapKeyRef:
               name: affine-config
               key: REDIS_URL
-        - name: DATABASE_URL
-          value: postgres://$(DB_USERNAME):$(DB_PASSWORD)@postgres:5432/$(DB_DATABASE)
         - name: DB_USERNAME
           valueFrom:
             configMapKeyRef:
@@ -223,6 +221,12 @@ spec:
             configMapKeyRef:
               name: affine-config
               key: DB_DATABASE
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          export DATABASE_URL="postgres://$DB_USERNAME:$DB_PASSWORD@postgres:5432/$DB_DATABASE"
+          echo "DATABASE_URL set to: $DATABASE_URL"
+          exec node dist/main.js
         ports:
         - containerPort: 3010
         volumeMounts:

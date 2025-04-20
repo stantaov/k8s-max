@@ -177,6 +177,32 @@ spec:
       labels:
         app: affine
     spec:
+      initContainers:
+      - name: set-database-url
+        image: busybox
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          echo "DATABASE_URL=postgresql://$DB_USERNAME:$DB_PASSWORD@postgres:5432/$DB_DATABASE" > /env/.env
+        env:
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: affine-config
+              key: DB_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: affine-secrets
+              key: DB_PASSWORD
+        - name: DB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: affine-config
+              key: DB_DATABASE
+        volumeMounts:
+        - name: env
+          mountPath: /env
       containers:
       - name: affine
         image: ghcr.io/toeverything/affine-graphql:stable
@@ -206,34 +232,34 @@ spec:
             configMapKeyRef:
               name: affine-config
               key: REDIS_URL
-        - name: DB_USERNAME
-          valueFrom:
-            configMapKeyRef:
-              name: affine-config
-              key: DB_USERNAME
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: affine-secrets
-              key: DB_PASSWORD
-        - name: DB_DATABASE
-          valueFrom:
-            configMapKeyRef:
-              name: affine-config
-              key: DB_DATABASE
+        - name: NODE_OPTIONS
+          value: "--import=./scripts/register.js"
+        - name: AFFINE_CONFIG_PATH
+          value: "/root/.affine/config"
+        - name: NODE_ENV
+          value: "production"
+        envFrom:
+        - configMapRef:
+            name: affine-env
+            optional: true
         command: ["/bin/sh", "-c"]
         args:
         - |
-          export DATABASE_URL="postgres://$DB_USERNAME:$DB_PASSWORD@postgres:5432/$DB_DATABASE"
-          echo "DATABASE_URL set to: $DATABASE_URL"
-          exec node /app/main.j
+          echo "Running pre-deployment script..."
+          node ./scripts/self-host-predeploy
+          echo "Starting affine-graphql service..."
+          exec node ./dist/index.js
         ports:
         - containerPort: 3010
+        - containerPort: 5555
         volumeMounts:
         - name: affine-storage
           mountPath: /root/storage
         - name: affine-config
           mountPath: /root/.affine/config
+        - name: env
+          mountPath: /app/.env
+          subPath: .env
       volumes:
       - name: affine-storage
         persistentVolumeClaim:
@@ -241,6 +267,8 @@ spec:
       - name: affine-config
         persistentVolumeClaim:
           claimName: affine-config-pvc
+      - name: env
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -251,6 +279,10 @@ spec:
   selector:
     app: affine
   ports:
-  - port: 3010
+  - name: http
+    port: 3010
     targetPort: 3010
+  - name: debug
+    port: 5555
+    targetPort: 5555
   type: ClusterIP

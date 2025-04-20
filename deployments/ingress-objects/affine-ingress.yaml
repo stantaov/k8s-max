@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: affine-ingress
+  namespace: affine
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: affine.k8s.max
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: affine
+            port:
+              number: 3010
+  tls:
+  - hosts:
+    - affine.k8s.max
+    secretName: k8s-max-wildcard-tls

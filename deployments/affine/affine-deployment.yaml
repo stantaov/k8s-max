@@ -136,6 +136,8 @@ spec:
             configMapKeyRef:
               name: affine-config
               key: DB_DATABASE
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
         ports:
         - containerPort: 5432
         volumeMounts:

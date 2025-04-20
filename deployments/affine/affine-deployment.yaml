@@ -226,7 +226,7 @@ spec:
         - |
           export DATABASE_URL="postgres://$DB_USERNAME:$DB_PASSWORD@postgres:5432/$DB_DATABASE"
           echo "DATABASE_URL set to: $DATABASE_URL"
-          exec node dist/main.js
+          exec node /app/main.j
         ports:
         - containerPort: 3010
         volumeMounts:

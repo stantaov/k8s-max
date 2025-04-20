@@ -203,6 +203,31 @@ spec:
         volumeMounts:
         - name: env
           mountPath: /env
+      - name: config-init
+        image: busybox:1.36
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          echo '{
+            "server": {
+              "name": "affine.k8s.max"
+            },
+            "copilot": {
+              "enabled": true,
+              "providers.openai": {
+                "apiKey": "'$OPENAI_API_KEY'"
+              }
+            }
+          }' > /config/config.json
+        env:
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: affine-openai-secret
+              key: openai-api-key
+        volumeMounts:
+        - name: affine-config
+          mountPath: /config
       containers:
       - name: affine
         image: ghcr.io/toeverything/affine-graphql:stable

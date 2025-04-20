@@ -227,11 +227,8 @@ spec:
             configMapKeyRef:
               name: affine-config
               key: AFFINE_SERVER_EXTERNAL_URL
-        - name: REDIS_URL
-          valueFrom:
-            configMapKeyRef:
-              name: affine-config
-              key: REDIS_URL
+        - name: REDIS_SERVER_HOST
+          value: "redis"
         - name: NODE_OPTIONS
           value: "--import=./scripts/register.js"
         - name: AFFINE_CONFIG_PATH
@@ -252,6 +249,15 @@ spec:
         ports:
         - containerPort: 3010
         - containerPort: 5555
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - redis-cli -h redis -p 6379 ping | grep PONG
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          failureThreshold: 3
         volumeMounts:
         - name: affine-storage
           mountPath: /root/storage

@@ -249,15 +249,6 @@ spec:
         ports:
         - containerPort: 3010
         - containerPort: 5555
-        readinessProbe:
-          exec:
-            command:
-            - /bin/sh
-            - -c
-            - redis-cli -h redis -p 6379 ping | grep PONG
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          failureThreshold: 3
         volumeMounts:
         - name: affine-storage
           mountPath: /root/storage

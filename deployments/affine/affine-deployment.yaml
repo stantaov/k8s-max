@@ -1,0 +1,249 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: affine-config
+  namespace: affine
+data:
+  AFFINE_REVISION: "stable"
+  AFFINE_SERVER_PORT: "3010"
+  AFFINE_SERVER_HTTPS: "true"
+  AFFINE_SERVER_HOST: "affine.k8s.max"
+  AFFINE_SERVER_EXTERNAL_URL: "https://affine.k8s.max"
+  REDIS_URL: "redis://redis:6379"
+  DB_USERNAME: "affine"
+  DB_DATABASE: "affine"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: affine
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: affine-storage-pvc
+  namespace: affine
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: affine-config-pvc
+  namespace: affine
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-pvc
+  namespace: affine
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: affine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis:7
+        ports:
+        - containerPort: 6379
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: redis-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: affine
+spec:
+  selector:
+    app: redis
+  ports:
+  - port: 6379
+    targetPort: 6379
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: affine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:15
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: affine-config
+              key: DB_USERNAME
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: affine-secrets
+              key: DB_PASSWORD
+        - name: POSTGRES_DB
+          valueFrom:
+            configMapKeyRef:
+              name: affine-config
+              key: DB_DATABASE
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: affine
+spec:
+  selector:
+    app: postgres
+  ports:
+  - port: 5432
+    targetPort: 5432
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: affine
+  namespace: affine
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: affine
+  template:
+    metadata:
+      labels:
+        app: affine
+    spec:
+      containers:
+      - name: affine
+        image: ghcr.io/toeverything/affine-graphql:stable
+        env:
+        - name: AFFINE_SERVER_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: affine-config
+              key: AFFINE_SERVER_PORT
+        - name: AFFINE_SERVER_HTTPS
+          valueFrom:
+            configMapKeyRef:
+              name: affine-config
+              key: AFFINE_SERVER_HTTPS
+        - name: AFFINE_SERVER_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: affine-config
+              key: AFFINE_SERVER_HOST
+        - name: AFFINE_SERVER_EXTERNAL_URL
+          valueFrom:
+            configMapKeyRef:
+              name: affine-config
+              key: AFFINE_SERVER_EXTERNAL_URL
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: affine-config
+              key: REDIS_URL
+        - name: DATABASE_URL
+          value: postgres://$(DB_USERNAME):$(DB_PASSWORD)@postgres:5432/$(DB_DATABASE)
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: affine-config
+              key: DB_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: affine-secrets
+              key: DB_PASSWORD
+        - name: DB_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: affine-config
+              key: DB_DATABASE
+        ports:
+        - containerPort: 3010
+        volumeMounts:
+        - name: affine-storage
+          mountPath: /root/storage
+        - name: affine-config
+          mountPath: /root/.affine/config
+      volumes:
+      - name: affine-storage
+        persistentVolumeClaim:
+          claimName: affine-storage-pvc
+      - name: affine-config
+        persistentVolumeClaim:
+          claimName: affine-config-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: affine
+  namespace: affine
+spec:
+  selector:
+    app: affine
+  ports:
+  - port: 3010
+    targetPort: 3010
+  type: ClusterIP

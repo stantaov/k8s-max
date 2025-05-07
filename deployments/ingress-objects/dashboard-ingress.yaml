@@ -23,13 +23,13 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: k8s-dashboard-kubernetes-dashboard-api
+                name: kubernetes-dashboard-kong-proxy
                 port:
-                  number: 8000
+                  number: 443
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: k8s-dashboard-kubernetes-dashboard-web
+                name: kubernetes-dashboard-kong-proxy
                 port:
-                  number: 8000
+                  number: 443

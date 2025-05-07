@@ -5,10 +5,11 @@ metadata:
   namespace: kubernetes-dashboard
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "30"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/upstream-vhost: "k8s-dashboard-kubernetes-dashboard-web.kubernetes-dashboard.svc.cluster.local"
     cert-manager.io/cluster-issuer: selfsigned-ca-issuer
 spec:
   tls:

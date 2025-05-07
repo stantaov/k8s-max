@@ -9,7 +9,6 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
     nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/upstream-vhost: "k8s-dashboard-kubernetes-dashboard-web.kubernetes-dashboard.svc.cluster.local"
     cert-manager.io/cluster-issuer: selfsigned-ca-issuer
 spec:
   tls:
@@ -20,6 +19,13 @@ spec:
     - host: dashboard.k8s.max
       http:
         paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: k8s-dashboard-kubernetes-dashboard-api
+                port:
+                  number: 8000
           - path: /
             pathType: Prefix
             backend:

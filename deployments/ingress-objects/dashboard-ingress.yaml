@@ -5,7 +5,6 @@ metadata:
   namespace: kubernetes-dashboard
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
     nginx.ingress.kubernetes.io/rewrite-target: /
@@ -23,13 +22,13 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: kubernetes-dashboard-kong-proxy
+                name: k8s-dashboard-kubernetes-dashboard-auth
                 port:
-                  number: 443
+                  number: 8000
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: kubernetes-dashboard-kong-proxy
+                name: k8s-dashboard-kubernetes-dashboard-web
                 port:
-                  number: 443
+                  number: 8000

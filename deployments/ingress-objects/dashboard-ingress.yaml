@@ -12,7 +12,7 @@ spec:
   tls:
     - hosts:
         - dashboard.k8s.max
-      secretName: k8s-dashboard-tls
+      secretName: k8s-max-wildcard-tls
   rules:
     - host: dashboard.k8s.max
       http:

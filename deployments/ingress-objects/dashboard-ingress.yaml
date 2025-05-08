@@ -4,35 +4,24 @@ metadata:
   name: kubernetes-dashboard-ingress
   namespace: kubernetes-dashboard
   annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "60"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/enable-cors: "true"
-    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, OPTIONS"
-    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
-    nginx.ingress.kubernetes.io/add-header: "Content-Type: application/json"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     cert-manager.io/cluster-issuer: selfsigned-ca-issuer
 spec:
   tls:
     - hosts:
         - dashboard.k8s.max
       secretName: k8s-max-wildcard-tls
+  ingressClassName: nginx
   rules:
     - host: dashboard.k8s.max
       http:
         paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: k8s-dashboard-kubernetes-dashboard-auth
-                port:
-                  number: 8000
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: k8s-dashboard-kubernetes-dashboard-web
+                name: k8s-dashboard-kong-proxy
                 port:
-                  number: 8000
+                  number: 443

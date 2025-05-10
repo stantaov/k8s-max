@@ -139,7 +139,7 @@ tolerations: []
 affinity: {}
 
 scaling:
-  enabled: true
+  enabled: false
   worker:
     count: 2
     concurrency: 10
@@ -148,4 +148,4 @@ scaling:
     count: 1
 
 redis:
-  enabled: true 
+  enabled: false

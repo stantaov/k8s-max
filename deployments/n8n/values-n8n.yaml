@@ -27,6 +27,11 @@ secret:
     postgresdb:
       password: "Boss2025!" 
 
+extraEnv:
+  WEBHOOK_URL: "https://n8n.k8s.max/"
+  QUEUE_BULL_REDIS_HOST: "redis.affine.svc.cluster.local"
+  QUEUE_BULL_REDIS_PORT: "6379"
+
 # extraEnvSecrets:
 #   DB_POSTGRESDB_PASSWORD:
 #     name: affine-secrets

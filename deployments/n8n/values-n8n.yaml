@@ -1,7 +1,7 @@
 # Default helm values for n8n.
 
 n8n:
-  encryption_key: ""
+  encryption_key: "aX9kPqW3mZ7vN2jL8rT5yU6iB4oQ9eF2"
 
 config:
   database:

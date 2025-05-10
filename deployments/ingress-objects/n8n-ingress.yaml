@@ -4,8 +4,7 @@ metadata:
   name: n8n-ingress
   namespace: n8n
   annotations:
-    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx
@@ -19,7 +18,7 @@ spec:
           service:
             name: n8n
             port:
-              number: 443
+              number: 80
   tls:
   - hosts:
     - n8n.k8s.max

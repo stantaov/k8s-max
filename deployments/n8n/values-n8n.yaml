@@ -27,10 +27,10 @@ secret:
     postgresdb:
       password: "Boss2025!" 
 
-extraEnvSecrets:
-  DB_POSTGRESDB_PASSWORD:
-    name: affine-secrets
-    key: DB_PASSWORD 
+# extraEnvSecrets:
+#   DB_POSTGRESDB_PASSWORD:
+#     name: affine-secrets
+#     key: DB_PASSWORD 
   # REDIS_PASSWORD:
   #   name: affine-secrets
   #   key: redis-password

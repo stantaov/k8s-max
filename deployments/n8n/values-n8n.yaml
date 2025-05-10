@@ -53,7 +53,7 @@ deploymentStrategy:
 image:
   repository: n8nio/n8n
   pullPolicy: Always 
-  tag: "latest" 
+  tag: "1.91.3" 
 
 imagePullSecrets: []
 nameOverride: ""

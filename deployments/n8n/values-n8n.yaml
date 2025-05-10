@@ -150,4 +150,4 @@ scaling:
     count: 1
 
 redis:
-  enabled: false 
+  enabled: true 

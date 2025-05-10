@@ -18,9 +18,11 @@ config:
   generic:
     timezone: "UTC" 
 
-extraEnv:
-  QUEUE_BULL_REDIS_HOST: "redis.affine.svc.cluster.local"
-  QUEUE_BULL_REDIS_PORT: "6379"
+queue:
+    bull:
+      redis:
+        host: "redis.affine.svc.cluster.local" 
+        port: 6379
 
 secret:
   database:

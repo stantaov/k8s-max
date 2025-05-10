@@ -17,21 +17,20 @@ config:
     pruneDataMaxAge: 8760
   generic:
     timezone: "UTC" 
-  scaling:
-    enabled: true
-    redis:
-      host: redis.affine.svc.cluster.local 
-      port: 6379
+
+extraEnv:
+  QUEUE_BULL_REDIS_HOST: "redis.affine.svc.cluster.local"
+  QUEUE_BULL_REDIS_PORT: "6379"
 
 secret:
   database:
     postgresdb:
       password: "Boss2025!" 
 
-# extraEnvSecrets:
-#   DB_POSTGRESDB_PASSWORD:
-#     name: affine-secrets
-    # key: DB_PASSWORD 
+extraEnvSecrets:
+  DB_POSTGRESDB_PASSWORD:
+    name: affine-secrets
+    key: DB_PASSWORD 
   # REDIS_PASSWORD:
   #   name: affine-secrets
   #   key: redis-password
@@ -54,7 +53,7 @@ deploymentStrategy:
 image:
   repository: n8nio/n8n
   pullPolicy: Always 
-  tag: "1.91.3" 
+  tag: "latest" 
 
 imagePullSecrets: []
 nameOverride: ""

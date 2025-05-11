@@ -32,5 +32,4 @@ spec:
   tls:
   - hosts:
     - n8n.k8s.max
-    - 8d27-184-147-248-48.ngrok-free.app
     secretName: k8s-max-wildcard-tls

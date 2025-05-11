@@ -4,7 +4,7 @@ metadata:
   name: n8n-ingress
   namespace: n8n
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
 spec:
   ingressClassName: nginx
@@ -19,7 +19,7 @@ spec:
             name: n8n
             port:
               number: 80
-  - host: 8d27-184-147-248-48.ngrok-free.app
+  - host: a782-184-147-248-48.ngrok-free.app
     http:
       paths:
       - path: /

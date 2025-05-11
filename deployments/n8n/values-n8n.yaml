@@ -26,7 +26,7 @@ secret:
 extraEnv:
   N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
   OFFLOAD_MANUAL_EXECUTIONS_TO_WORKERS: "true"
-  WEBHOOK_URL: "https://8d27-184-147-248-48.ngrok-free.app"
+  WEBHOOK_URL: "https://a782-184-147-248-48.ngrok-free.app"
   N8N_BASIC_AUTH_ACTIVE: "true"
   N8N_HOST: "n8n.k8s.max"
   N8N_LOG_LEVEL: "debug"

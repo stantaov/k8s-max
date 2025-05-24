@@ -27,6 +27,16 @@ spec:
             name: affine
             port:
               number: 3010
+  - host: 663f-142-115-96-170.ngrok-free.app
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: affine
+            port:
+              number: 3010
   tls:
   - hosts:
     - affine.k8s.max

@@ -68,7 +68,7 @@ deploymentStrategy:
 image:
   repository: stantaov/n8n
   pullPolicy: Always 
-  tag: "1.94.1" 
+  tag: "1.95.2" 
 
 imagePullSecrets: []
 nameOverride: ""

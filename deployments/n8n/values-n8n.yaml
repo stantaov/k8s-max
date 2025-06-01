@@ -24,6 +24,7 @@ secret:
       password: "Boss2025!" 
 
 extraEnv:
+  NODE_FUNCTION_ALLOW_EXTERNAL: "node-fetch"
   N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
   OFFLOAD_MANUAL_EXECUTIONS_TO_WORKERS: "true"
   WEBHOOK_URL: "https://5b62-142-115-96-170.ngrok-free.app"

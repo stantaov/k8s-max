@@ -21,7 +21,7 @@ config:
 secret:
   database:
     postgresdb:
-      password: {{ POSTGRES_PASS }}
+      password: ${{ secrets.POSTGRES_PASS }}
 
 extraEnv:
   NODE_FUNCTION_ALLOW_EXTERNAL: "node-fetch"

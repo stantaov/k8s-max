@@ -21,7 +21,24 @@ config:
 secret:
   database:
     postgresdb:
-      password: ${{ secrets.POSTGRES_PASS }}
+      password: ""
+
+env:
+  - name: DB_TYPE
+    value: postgresdb
+  - name: DB_POSTGRESDB_HOST
+    value: postgres.affine.svc.cluster.local
+  - name: DB_POSTGRESDB_PORT
+    value: "5432"
+  - name: DB_POSTGRESDB_DATABASE
+    value: n8n
+  - name: DB_POSTGRESDB_USER
+    value: affine
+  - name: DB_POSTGRESDB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: n8n-postgres-credentials
+        key: postgres-password      
 
 extraEnv:
   NODE_FUNCTION_ALLOW_EXTERNAL: "*"
@@ -35,12 +52,12 @@ extraEnv:
   N8N_CONCURRENCY: "50"
   N8N_RUNNERS_TASK_TIMEOUT: "60000"
   EXECUTIONS_TIMEOUT: "10800000"
-  DB_TYPE: "postgresdb"
-  DB_POSTGRESDB_HOST: "postgres.affine.svc.cluster.local"
-  DB_POSTGRESDB_PORT: "5432"
-  DB_POSTGRESDB_DATABASE: "n8n"
-  DB_POSTGRESDB_USER: "affine"
-  EXECUTIONS_MODE: "regular"
+  # DB_TYPE: "postgresdb"
+  # DB_POSTGRESDB_HOST: "postgres.affine.svc.cluster.local"
+  # DB_POSTGRESDB_PORT: "5432"
+  # DB_POSTGRESDB_DATABASE: "n8n"
+  # DB_POSTGRESDB_USER: "affine"
+  # EXECUTIONS_MODE: "regular"
 
 # extraEnvSecrets:
 #   DB_POSTGRESDB_PASSWORD:

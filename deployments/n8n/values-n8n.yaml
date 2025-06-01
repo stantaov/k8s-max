@@ -18,10 +18,10 @@ config:
   generic:
     timezone: "UTC" 
 
-# secret:
-#   database:
-#     postgresdb:
-#       password: ""
+secret:
+  database:
+    postgresdb:
+      password: "Boss2025!"
 
 env:
   - name: DB_TYPE

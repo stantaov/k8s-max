@@ -66,9 +66,9 @@ deploymentStrategy:
   maxUnavailable: "25%"
 
 image:
-  repository: n8nio/n8n
+  repository: stantaov/n8n
   pullPolicy: Always 
-  tag: "1.94.1" 
+  tag: "latest" 
 
 imagePullSecrets: []
 nameOverride: ""

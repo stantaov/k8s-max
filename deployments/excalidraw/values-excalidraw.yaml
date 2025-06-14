@@ -48,7 +48,7 @@ ingress:
           pathType: ImplementationSpecific
   tls: 
     - hosts:
-      - excalidraw.k8s.max
+        - excalidraw.k8s.max
       secretName: k8s-max-wildcard-tls
 
 resources: {}

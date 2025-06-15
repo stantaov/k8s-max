@@ -7,7 +7,7 @@ image:
 
 imagePullSecrets: []
 nameOverride: excalidraw
-fullnameOverride: ""
+fullnameOverride: excalidraw
 
 serviceAccount:
   create: true
@@ -17,20 +17,13 @@ serviceAccount:
 podAnnotations: {}
 
 podSecurityContext: {}
-  # fsGroup: 2000
 
 securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 
 service:
+  enabled: true
   type: LoadBalancer
   port: 80
-  # Explicitly define to avoid headless service
   headless: false
 
 ingress:
@@ -38,7 +31,6 @@ ingress:
   className: ""
   annotations:
     kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
   hosts:
     - host: excalidraw.k8s.max
       paths:
@@ -50,12 +42,6 @@ ingress:
       secretName: k8s-max-wildcard-tls
 
 resources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 nodeSelector: {}
 

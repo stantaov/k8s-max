@@ -17,34 +17,33 @@ serviceAccount:
 podAnnotations: {}
 
 podSecurityContext: {}
-
 securityContext: {}
 
 service:
   enabled: true
   type: LoadBalancer
   port: 80
+  targetPort: 80
+  selector:
+    app.kubernetes.io/name: excalidraw
   headless: false
 
 ingress:
-  enabled: false
-  className: ""
+  enabled: true
+  className: nginx
   annotations:
     kubernetes.io/ingress.class: nginx
   hosts:
     - host: excalidraw.k8s.max
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
   tls:
     - hosts:
         - excalidraw.k8s.max
       secretName: k8s-max-wildcard-tls
 
 resources: {}
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}

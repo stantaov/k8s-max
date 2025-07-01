@@ -30,10 +30,10 @@ config:
   generic:
     timezone: "UTC" 
 
-# secret:
-#   database:
-#     postgresdb:
-#       password: "@wecook12ll!"
+secret:
+  database:
+    postgresdb:
+      password: "@wecook12ll!"
 
 env:
   - name: DB_TYPE
@@ -61,11 +61,11 @@ extraEnv:
   N8N_CONCURRENCY: "50"
   N8N_RUNNERS_TASK_TIMEOUT: "60000"
   EXECUTIONS_TIMEOUT: "10800000"
-  DB_POSTGRESDB_PASSWORD:
-    valueFrom:
-      secretKeyRef:
-        name: n8n-secrets
-        key: db_password
+  # DB_POSTGRESDB_PASSWORD:
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: n8n-secrets
+  #       key: db_password
   # DB_TYPE: "postgresdb"
   # DB_POSTGRESDB_HOST: "postgres.affine.svc.cluster.local"
   # DB_POSTGRESDB_PORT: "5432"

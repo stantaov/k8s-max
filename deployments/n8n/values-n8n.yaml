@@ -33,7 +33,7 @@ config:
 # secret:
 #   database:
 #     postgresdb:
-#       password: "@wecook12ll!"
+#       password: ""
 
 env:
   - name: DB_TYPE
@@ -46,14 +46,12 @@ env:
     value: n8n
   - name: DB_POSTGRESDB_USER
     value: affine
-  # - name: DB_POSTGRESDB_PASSWORD
-  #   value: "Boss2025!"
 
 extraEnv:
   NODE_FUNCTION_ALLOW_EXTERNAL: "*"
   N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
   OFFLOAD_MANUAL_EXECUTIONS_TO_WORKERS: "true"
-  # DB_POSTGRESDB_PASSWORD: "@wecook12ll!"
+  DB_POSTGRESDB_PASSWORD: "@wecook12ll!"
   WEBHOOK_URL: "https://5b62-142-115-96-170.ngrok-free.app"
   N8N_BASIC_AUTH_ACTIVE: "true"
   N8N_HOST: "n8n.k8s.max"
@@ -62,11 +60,11 @@ extraEnv:
   N8N_CONCURRENCY: "50"
   N8N_RUNNERS_TASK_TIMEOUT: "60000"
   EXECUTIONS_TIMEOUT: "10800000"
-  DB_POSTGRESDB_PASSWORD:
-    valueFrom:
-      secretKeyRef:
-        name: n8n-secrets
-        key: db_password
+  # DB_POSTGRESDB_PASSWORD:
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: n8n-secrets
+  #       key: db_password
   # DB_TYPE: "postgresdb"
   # DB_POSTGRESDB_HOST: "postgres.affine.svc.cluster.local"
   # DB_POSTGRESDB_PORT: "5432"

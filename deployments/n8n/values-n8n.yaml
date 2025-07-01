@@ -9,11 +9,11 @@ env:
       secretKeyRef:
         name: n8n-secrets
         key: db_password
-
-extraEnvSecrets:
-  N8N_ENCRYPTION_KEY:
-    name: n8n-secrets
-    key: encryption_key  
+  - name: N8N_ENCRYPTION_KEY
+    valueFrom:
+      secretKeyRef:
+        name: n8n-secrets
+        key: N8N_ENCRYPTION_KEY
 
 config:
   database:

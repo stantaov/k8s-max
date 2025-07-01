@@ -4,11 +4,11 @@ n8n:
   encryption_key: ""
 
 env:
-  - name: DB_POSTGRESDB_PASSWORD
-    valueFrom:
-      secretKeyRef:
-        name: n8n-secrets
-        key: db_password
+  # - name: DB_POSTGRESDB_PASSWORD
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: n8n-secrets
+  #       key: db_password
   - name: N8N_ENCRYPTION_KEY
     valueFrom:
       secretKeyRef:
@@ -30,10 +30,10 @@ config:
   generic:
     timezone: "UTC" 
 
-secret:
-  database:
-    postgresdb:
-      password: "@wecook12ll!"
+# secret:
+#   database:
+#     postgresdb:
+#       password: "@wecook12ll!"
 
 env:
   - name: DB_TYPE
@@ -46,8 +46,8 @@ env:
     value: n8n
   - name: DB_POSTGRESDB_USER
     value: affine
-  - name: DB_POSTGRESDB_PASSWORD
-    value: "Boss2025!"
+  # - name: DB_POSTGRESDB_PASSWORD
+  #   value: "Boss2025!"
 
 extraEnv:
   NODE_FUNCTION_ALLOW_EXTERNAL: "*"
@@ -61,6 +61,11 @@ extraEnv:
   N8N_CONCURRENCY: "50"
   N8N_RUNNERS_TASK_TIMEOUT: "60000"
   EXECUTIONS_TIMEOUT: "10800000"
+  DB_POSTGRESDB_PASSWORD:
+    valueFrom:
+      secretKeyRef:
+        name: n8n-secrets
+        key: db_password
   # DB_TYPE: "postgresdb"
   # DB_POSTGRESDB_HOST: "postgres.affine.svc.cluster.local"
   # DB_POSTGRESDB_PORT: "5432"

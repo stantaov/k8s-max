@@ -1,7 +1,19 @@
 # Default helm values for n8n.
 
 n8n:
-  encryption_key: "aX9kPqW3mZ7vN2jL8rT5yU6iB4oQ9eF2"
+  encryption_key: ""
+
+env:
+  - name: DB_POSTGRESDB_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: n8n-secrets
+        key: db_password
+
+extraEnvSecrets:
+  N8N_ENCRYPTION_KEY:
+    name: n8n-secrets
+    key: encryption_key  
 
 config:
   database:
@@ -21,7 +33,7 @@ config:
 secret:
   database:
     postgresdb:
-      password: "Boss2025!"
+      password: ""
 
 env:
   - name: DB_TYPE

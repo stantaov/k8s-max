@@ -33,7 +33,7 @@ config:
 secret:
   database:
     postgresdb:
-      password: ""
+      password: "Boss2025!"
 
 env:
   - name: DB_TYPE

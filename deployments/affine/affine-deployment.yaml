@@ -230,7 +230,7 @@ spec:
           mountPath: /config
       containers:
       - name: affine
-        image: ghcr.io/toeverything/affine-graphql:stable-e043ecf
+        image: ghcr.io/toeverything/affine:2025.8.28-canary.904
         env:
         - name: AFFINE_SERVER_PORT
           valueFrom:

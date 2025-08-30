@@ -230,7 +230,7 @@ spec:
           mountPath: /config
       containers:
       - name: affine
-        image: ghcr.io/toeverything/affine-graphql:stable-e98f035
+        image: ghcr.io/toeverything/affine:0.24.1
         env:
         - name: AFFINE_SERVER_PORT
           valueFrom:
@@ -254,8 +254,8 @@ spec:
               key: AFFINE_SERVER_EXTERNAL_URL
         - name: REDIS_SERVER_HOST
           value: "redis"
-        - name: NODE_OPTIONS
-          value: "--import=./scripts/register.js"
+        # - name: NODE_OPTIONS
+        #   value: "--import=./scripts/register.js"
         - name: AFFINE_CONFIG_PATH
           value: "/root/.affine/config"
         - name: NODE_ENV

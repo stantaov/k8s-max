@@ -230,7 +230,7 @@ spec:
           mountPath: /config
       containers:
       - name: affine
-        image: ghcr.io/toeverything/affine:0.24.1
+        image: ghcr.io/toeverything/affine-graphql:stable-e98f035
         env:
         - name: AFFINE_SERVER_PORT
           valueFrom:
@@ -269,8 +269,8 @@ spec:
         - |
           echo "Running pre-deployment script..."
           node ./scripts/self-host-predeploy
-          # echo "Starting affine-graphql service..."
-          # exec node ./dist/index.js
+          echo "Starting affine-graphql service..."
+          exec node ./dist/index.js
         ports:
         - containerPort: 3010
         - containerPort: 5555

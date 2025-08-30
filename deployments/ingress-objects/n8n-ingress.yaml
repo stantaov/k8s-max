@@ -19,7 +19,7 @@ spec:
             name: n8n
             port:
               number: 80
-  - host: 5b62-142-115-96-170.ngrok-free.app
+  - host: 452d57480418.ngrok-free.app
     http:
       paths:
       - path: /

@@ -27,7 +27,7 @@ spec:
             name: affine
             port:
               number: 3010
-  - host: ec023f8117d8.ngrok-free.app
+  - host: f120a752d99b.ngrok-free.app
     http:
       paths:
       - path: /
